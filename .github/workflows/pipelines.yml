@@ -83,6 +83,7 @@ jobs:
       - name: Derive Version
         run: |
           LAST_TAGGED_VERSION=`git tag --list --sort=-committerdate 'v*' | head -1 | sed -Ee 's/v//g'`
+          [ -z $LAST_TAGGED_VERSION ] && LAST_TAGGED_VERSION=0.0.0
           BUMP=`echo $(git log --no-merges -n 1 --format="%B") | perl -nE'say/bump:\s*(major|minor|patch)/'`
           [ -z $BUMP ] && BUMP=patch && echo "Setting BUMP to default (patch)" && echo $BUMP
           NEW_VERSION=`.github/scripts/semver bump $BUMP $LAST_TAGGED_VERSION` && echo $NEW_VERSION && echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV                    

@@ -17,7 +17,7 @@ Following instructions are targetted at bash shell (as per git-bash)
 ```bash
 NEW_PROJECT={YOUR_NEW_PROJECT_NAME}
 mkdir src src/$NEW_PROJECT
-dotnet new sln $NEW_PROJECT
+dotnet new sln -n $NEW_PROJECT
 pushd src/$NEW_PROJECT && dotnet new classlib && popd
 dotnet sln add src/$NEW_PROJECT/$NEW_PROJECT.csproj
 ```
