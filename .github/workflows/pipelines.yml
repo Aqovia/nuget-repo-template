@@ -7,16 +7,26 @@ on:
 env:
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  
   # Disable sending usage data to Microsoft
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  
   # Project name to pack and publish
-  PROJECT_NAME: YOUR_NUGET_PROJECT_NAME
-  # GitHub Packages Feed settings
-  GITHUB_FEED: YOUR_GITHUB_FEED_ENDPOINT
+  PROJECT_NAME: DurableFunctions.Test
+  
+  # Extra varibale to target test project
+  TEST_PROJECT_NAME: DurableFunctions.Test.EndToEndTests
+  
+  # Github auth token
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Aqovia preview feed settings
+  NUGET_PREVIEW_FEED: https://pkgs.dev.azure.com/aqovia-opensource/4feb2f54-ea14-4724-966c-b30048d22334/_packaging/NuGetOSS/nuget/v3/index.json
+  NUGET_PREVIEW_FEED_PUBLISH_KEY: ${{ secrets.NUGET_PREVIEW_FEED_PUBLISH_KEY }}
+
   # Official NuGet Feed settings
   NUGET_FEED: https://api.nuget.org/v3/index.json
-  NUGET_KEY: ${{ secrets.NUGET_KEY }}
+  NUGET_KEY: ${{ secrets.NUGET_ORG_PUBLISH_API_KEY }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,8 +64,14 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: nupkg
-      - name: Push to GitHub Feed
-        run: dotnet nuget push ./nupkg/*.nupkg --source ${{ env.GITHUB_FEED }} --api-key ${GITHUB_TOKEN}
+      - name: Setup publish token  
+        uses: actions/setup-dotnet@v1
+        with:
+          source-url: ${{ env.NUGET_PREVIEW_FEED }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ env.NUGET_PREVIEW_FEED_PUBLISH_KEY }}
+      - name: Publish the package to Nuget preview feed
+        run: dotnet nuget push ./nupkg/*.nupkg --source ${{ env.NUGET_PREVIEW_FEED }} --api-key AzureArtifact
   deploy:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -97,9 +113,5 @@ jobs:
         run: dotnet pack -v normal -c Release -p:Version=${new_version} -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.csproj
         env:
           new_version: ${{ steps.prepare-release.outputs.new-version }}
-      - name: Push to GitHub Feed
-        if: success() && steps.prepare-release.outputs.new-version
-        run: dotnet nuget push ./nupkg/*.nupkg --source ${{ env.GITHUB_FEED }} --api-key ${GITHUB_TOKEN}
-      - name: Push to NuGet Feed
-        if: success() && steps.prepare-release.outputs.new-version
-        run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
+      - name: Publish the package to Nuget feed
+        run: dotnet nuget push ./nupkg/*.nupkg --source ${{ env.NUGET_FEED }} --skip-duplicate --api-key ${{ env.NUGET_KEY }}
