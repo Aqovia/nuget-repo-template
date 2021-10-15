@@ -90,7 +90,7 @@ git push
 11. Create features by branching from the `master` branch
 12. Once completed push the changes to the remote and observe the remote build of the branch
     - the CI will create a preview build and push this to the Preview Feed for testing
-13. Once finalised create a pull request to `master` branch via the Github UI    
+13. Once finalised create a pull request to `master` branch via the Github UI
     - there is functionality to parse and extract this PR title and description for usage during release process
     - all successful PRs to master are intended to publish a new semantic version of the project to the release Nuget feed
     - in order to inform the CI pipeline of what your intended semantic version update should be for this change (pr to master) you should include 1 of the following strings in the PR description
@@ -105,9 +105,9 @@ git push
         - the title of the PR will become a new heading
         - the description of the message (and all markdown) will become the content under the heading
 
-        ## Further note
-        1. It was intended that a Github workflow template might be better suited for the maintainance of the workflow and actions contained in this repository. Due to time constraints and the no availability of action templates at the time of writing this was not possible. In order to best encapsulate the workflow and associated actions this repository template was considered the most effective option. 
-        2. The knock-on effect of maintaining this pipeline in a template repo is that actions are invoked as if this was a fully configured repository with config and code in place. This results in a build failure for this project but this repo is not designed to be built by a pipeline in its current state. 
+## Further note
+1. It was intended that a Github workflow template might be better suited for the maintainance of the workflow and actions contained in this repository. Due to time constraints and the no availability of action templates at the time of writing this was not possible. In order to best encapsulate the workflow and associated actions this repository template was considered the most effective option. 
+2. The knock-on effect of maintaining this pipeline in a template repo is that actions are invoked as if this was a fully configured repository with config and code in place. This results in a build failure for this project but this repo is not designed to be built by a pipeline in its current state. 
 
 
 
