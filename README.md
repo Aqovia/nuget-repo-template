@@ -107,7 +107,7 @@ git push
 
 ## Further note
 1. It was intended that a Github workflow template might be better suited for the maintainance of the workflow and actions contained in this repository. Due to time constraints and the no availability of action templates at the time of writing this was not possible. In order to best encapsulate the workflow and associated actions this repository template was considered the most effective option. 
-2. The knock-on effect of maintaining this pipeline in a template repo is that actions are invoked as if this was a fully configured repository with config and code in place. This results in a build failure for this project but this repo is not designed to be built by a pipeline in its current state. 
+
 
 
 
