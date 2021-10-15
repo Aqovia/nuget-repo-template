@@ -90,12 +90,10 @@ git push
 11. Create features by branching from the `master` branch
 12. Once completed push the changes to the remote and observe the remote build of the branch
     - the CI will create a preview build and push this to the Preview Feed for testing
-13. Once finalised create a pull request to `master` branch via the Github UI
-    
-    
-    - there is functionlity to parse and extract this message for the release process
+13. Once finalised create a pull request to `master` branch via the Github UI    
+    - there is functionality to parse and extract this PR title and description for usage during release process
     - all successful PRs to master are intended to publish a new semantic version of the project to the release Nuget feed
-    - in order to inform the CI pipeline of what your intended semantic version update should be for this change (pr to master) you should include 1 of the following strings
+    - in order to inform the CI pipeline of what your intended semantic version update should be for this change (pr to master) you should include 1 of the following strings in the PR description
         1. bump: major
             - this will bump the major version during the release process
         2. bump: minor
