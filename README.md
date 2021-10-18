@@ -1,13 +1,13 @@
 # Nuget Repo Template
 
-This repository is provided as a template repository for the creation of Nuget packages. It contains build and deploy scripts that are executed by the Github Actions feature when code is published to a remote repository that is based of this template. This template is primarliy designed for the building of class libraries targetting `netstandard2.0`.
+This repository is provided as a template repository for the creation of Nuget packages. It contains build and deploy scripts that are executed by the Github Actions feature when code is published to a remote repository that is based of this template. This template is primarily designed for the building of class libraries targetting `netstandard2.0`.
 
 ## Dependencies
 1. Github build agent to run the pipeline
 
 ## Getting started
 
-Following instructions are targetted at bash shell (as per git-bash)
+Following instructions are targeted at bash shell (as per git-bash)
 
 1. Create a new repository via the Aqovia Github site using the  [here](https://github.com/organizations/Aqovia/repositories/new)
     - Select the `nuget-repo-template` as the starter template for the repo
@@ -61,10 +61,10 @@ dotnet sln add test/$NEW_TEST_PROJECT/$NEW_TEST_PROJECT.csproj
     - set these variables in the `env` section of the file - set only the variables shown and leave others as they are
 ```yaml
 env:
-  ### This is your new libarary project name
+  ### This is your new library project name
   PROJECT_NAME: {YOUR_NEW_PROJECT_NAME}
   
-  ### This is your new libarary test project name
+  ### This is your new library test project name
   TEST_PROJECT_NAME: {YOUR_TEST_PROJECT_NAME}
 
   ### A nuget feed which will maintain preview builds
