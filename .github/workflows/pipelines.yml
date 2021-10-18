@@ -12,20 +12,20 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   
   # Project name to pack and publish
-  PROJECT_NAME: DurableFunctions.Test
+  PROJECT_NAME: {YOUR_PROJECT_NAME}
   
   # Extra varibale to target test project
-  TEST_PROJECT_NAME: DurableFunctions.Test.EndToEndTests
+  TEST_PROJECT_NAME: {YOUR_TEST_PROJECT_NAME}
   
   # Github auth token
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Aqovia preview feed settings
-  NUGET_PREVIEW_FEED: https://pkgs.dev.azure.com/aqovia-opensource/4feb2f54-ea14-4724-966c-b30048d22334/_packaging/NuGetOSS/nuget/v3/index.json
+  # Preview NuGet feed settings
+  NUGET_PREVIEW_FEED: {YOUR_NUGET_PREVIEW_FEED}
   NUGET_PREVIEW_FEED_PUBLISH_KEY: ${{ secrets.NUGET_PREVIEW_FEED_PUBLISH_KEY }}
 
-  # Official NuGet Feed settings
-  NUGET_FEED: https://api.nuget.org/v3/index.json
+  # Release NuGet Feed settings
+  NUGET_FEED: {YOUR_NUGET_RELEASE_FEED}
   NUGET_KEY: ${{ secrets.NUGET_ORG_PUBLISH_API_KEY }}
 jobs:
   build:
@@ -114,4 +114,5 @@ jobs:
         env:
           new_version: ${{ steps.prepare-release.outputs.new-version }}
       - name: Publish the package to Nuget feed
+        if: success() && steps.prepare-release.outputs.new-version
         run: dotnet nuget push ./nupkg/*.nupkg --source ${{ env.NUGET_FEED }} --skip-duplicate --api-key ${{ env.NUGET_KEY }}
